@@ -10,4 +10,16 @@ public class Ticket {
         this.viechleColor = viechleColor;
         this.slot = slot;
     }
+
+    public String getRegistrationNo() {
+        return registrationNo;
+    }
+
+    public String getViechleColor() {
+        return viechleColor;
+    }
+
+    public Slot getSlot() {
+        return slot;
+    }
 }

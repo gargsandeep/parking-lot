@@ -35,7 +35,7 @@ public class ParkingLot implements  Parking{
     public Ticket park(String registrationNo, String colour) throws Exception {
         if(!this.isAvailable())
             throw new Exception("Sorry, parking lot is full");
-        
+
         int slotId = this.avaliableSpaces.poll();
         Slot slot = new Slot(slotId);
         Ticket ticket = new Ticket(registrationNo, colour, slot);
@@ -45,12 +45,22 @@ public class ParkingLot implements  Parking{
             this.colourTicketsMap.put(colour, new ArrayList<>());
         this.colourTicketsMap.get(colour).add(ticket);
 
+        System.out.println("Allocated slot number: "+slotId);
         return ticket;
     }
 
     @Override
-    public Slot leave(Ticket ticket) {
-        return null;
+    public Ticket leave(int slotId) throws Exception {
+        Slot slot = new Slot(slotId);
+        if(!this.slotTicketMap.containsKey(slot))
+            throw new Exception("Nothing to leave at slot "+slotId);
+
+        Ticket ticket = this.slotTicketMap.remove(slot);
+        this.registrationNoTicketMap.remove(ticket.getRegistrationNo());
+        this.colourTicketsMap.get(ticket.getViechleColor()).remove(ticket);
+
+        System.out.println("Slot number "+ slotId +" is free");
+        return ticket;
     }
 
     @Override
