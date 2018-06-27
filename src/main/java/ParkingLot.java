@@ -74,13 +74,31 @@ public class ParkingLot implements  Parking{
     }
 
     @Override
-    public List<String> registrationNoWithColour(String colour) {
-        return null;
+    public List<String> registrationNoWithColour(String colour) throws Exception {
+        List<Ticket> tickets = this.colourTicketsMap.get(colour);
+        List<String> registrationNoList = new ArrayList<>();
+        if(tickets == null)
+            throw  new Exception("No car is available for colour "+colour);
+        for(Ticket ticket : tickets) {
+            System.out.print(ticket.getRegistrationNo() + ", ");
+            registrationNoList.add(ticket.getRegistrationNo());
+        }
+        System.out.println();
+        return registrationNoList;
     }
 
     @Override
-    public List<Slot> slotNoWithColour(String colour) {
-        return null;
+    public List<Slot> slotNoWithColour(String colour) throws Exception {
+        List<Ticket> tickets = this.colourTicketsMap.get(colour);
+        List<Slot> slots  = new ArrayList<>();
+        if(tickets == null)
+            throw  new Exception("No car is available for colour "+colour);
+        for(Ticket ticket : tickets) {
+            System.out.print(ticket.getSlot().getId() + ", ");
+            slots.add(ticket.getSlot());
+        }
+        System.out.println();
+        return slots;
     }
 
     @Override
