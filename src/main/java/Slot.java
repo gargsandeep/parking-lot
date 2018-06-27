@@ -20,4 +20,8 @@ public class Slot {
     public int hashCode() {
         return id;
     }
+
+    public int getId() {
+        return id;
+    }
 }

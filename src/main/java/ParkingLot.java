@@ -65,7 +65,12 @@ public class ParkingLot implements  Parking{
 
     @Override
     public void status() {
-
+        System.out.println("Slot No. Registration No Colour");
+        for(Map.Entry<Slot, Ticket> entry : this.slotTicketMap.entrySet()){
+            Slot slot = entry.getKey();
+            Ticket ticket = entry.getValue();
+            System.out.println(slot.getId()+" "+ticket.getRegistrationNo()+" "+ticket.getViechleColor());
+        }
     }
 
     @Override
