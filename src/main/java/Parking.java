@@ -9,4 +9,5 @@ public interface Parking {
     List<String> registrationNoWithColour(String colour);
     List<Slot> slotNoWithColour(String colour);
     Slot slotForRegistrationNo(String registrationNo);
+    Boolean isAvailable();
 }
