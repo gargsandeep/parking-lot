@@ -1,4 +1,4 @@
-package main.java;
+
 
 public class Ticket {
     private String  registrationNo;

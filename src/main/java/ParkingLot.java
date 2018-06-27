@@ -1,4 +1,3 @@
-package main.java;
 
 import java.util.*;
 
@@ -11,11 +10,11 @@ public class ParkingLot implements  Parking{
 
     ParkingLot(int size){
         this.size=size;
-        this.avaliableSpaces = new PriorityQueue<>(size);
+        this.avaliableSpaces = new PriorityQueue<Integer>(size);
         initailizeAvaliableSpaces(this.avaliableSpaces, size);
-        this.slotTicketMap = new TreeMap<>();
-        this.colourTicketsMap = new HashMap<>();
-        this.registrationNoTicketMap = new HashMap<>();
+        this.slotTicketMap = new TreeMap<Slot, Ticket>();
+        this.colourTicketsMap = new HashMap<String, List<Ticket>>();
+        this.registrationNoTicketMap = new HashMap<String, Ticket>();
     }
 
     private void initailizeAvaliableSpaces(Queue<Integer> avaliableSpaces, int size) {
@@ -32,17 +31,18 @@ public class ParkingLot implements  Parking{
     }
 
     @Override
-    public Ticket park(String registrationNo, String colour) throws Exception {
-        if(!this.isAvailable())
-            throw new Exception("Sorry, parking lot is full");
-
+    public Ticket park(String registrationNo, String colour) {
+        if(!this.isAvailable()) {
+            System.out.println("Sorry, parking lot is full");
+            return null;
+        }
         int slotId = this.avaliableSpaces.poll();
         Slot slot = new Slot(slotId);
         Ticket ticket = new Ticket(registrationNo, colour, slot);
         this.slotTicketMap.put(slot, ticket);
         this.registrationNoTicketMap.put(registrationNo, ticket);
         if(!this.colourTicketsMap.containsKey(colour))
-            this.colourTicketsMap.put(colour, new ArrayList<>());
+            this.colourTicketsMap.put(colour, new ArrayList<Ticket>());
         this.colourTicketsMap.get(colour).add(ticket);
 
         System.out.println("Allocated slot number: "+slotId);
@@ -50,15 +50,17 @@ public class ParkingLot implements  Parking{
     }
 
     @Override
-    public Ticket leave(int slotId) throws Exception {
+    public Ticket leave(int slotId)  {
         Slot slot = new Slot(slotId);
-        if(!this.slotTicketMap.containsKey(slot))
-            throw new Exception("Nothing to leave at slot "+slotId);
+        if(!this.slotTicketMap.containsKey(slot)) {
+            System.out.println("Nothing to leave at slot " + slotId);
+            return  null;
+        }
 
         Ticket ticket = this.slotTicketMap.remove(slot);
         this.registrationNoTicketMap.remove(ticket.getRegistrationNo());
         this.colourTicketsMap.get(ticket.getViechleColor()).remove(ticket);
-
+        this.avaliableSpaces.add(slotId);
         System.out.println("Slot number "+ slotId +" is free");
         return ticket;
     }
@@ -74,11 +76,13 @@ public class ParkingLot implements  Parking{
     }
 
     @Override
-    public List<String> registrationNoWithColour(String colour) throws Exception {
+    public List<String> registrationNoWithColour(String colour) {
         List<Ticket> tickets = this.colourTicketsMap.get(colour);
-        List<String> registrationNoList = new ArrayList<>();
-        if(tickets == null)
-            throw  new Exception("No car is available for colour "+colour);
+        List<String> registrationNoList = new ArrayList<String>();
+        if(tickets == null) {
+            System.out.println("No car is available for colour " + colour);
+            return null;
+        }
         for(Ticket ticket : tickets) {
             System.out.print(ticket.getRegistrationNo() + ", ");
             registrationNoList.add(ticket.getRegistrationNo());
@@ -88,11 +92,13 @@ public class ParkingLot implements  Parking{
     }
 
     @Override
-    public List<Slot> slotNoWithColour(String colour) throws Exception {
+    public List<Slot> slotNoWithColour(String colour) {
         List<Ticket> tickets = this.colourTicketsMap.get(colour);
-        List<Slot> slots  = new ArrayList<>();
-        if(tickets == null)
-            throw  new Exception("No car is available for colour "+colour);
+        List<Slot> slots  = new ArrayList<Slot>();
+        if(tickets == null) {
+            System.out.println("No car is available for colour " + colour);
+            return  null;
+        }
         for(Ticket ticket : tickets) {
             System.out.print(ticket.getSlot().getId() + ", ");
             slots.add(ticket.getSlot());
@@ -102,10 +108,12 @@ public class ParkingLot implements  Parking{
     }
 
     @Override
-    public Slot slotForRegistrationNo(String registrationNo) throws Exception {
+    public Slot slotForRegistrationNo(String registrationNo) {
         Ticket ticket = this.registrationNoTicketMap.get(registrationNo);
-        if(ticket == null)
-            throw new Exception("Not found");
+        if(ticket == null) {
+            System.out.println("Not found");
+            return null;
+        }
         System.out.println(ticket.getSlot().getId());
         return  ticket.getSlot();
     }

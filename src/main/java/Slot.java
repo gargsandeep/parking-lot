@@ -1,6 +1,6 @@
-package main.java;
 
-public class Slot {
+
+public class Slot implements  Comparable{
     private  int id;
 
     public Slot(int slotId) {
@@ -23,5 +23,16 @@ public class Slot {
 
     public int getId() {
         return id;
+    }
+
+
+    @Override
+    public int compareTo(Object obj) {
+        Slot slot = (Slot)obj;
+        if(this.id>slot.id)
+            return 1;
+        else if(this.id<slot.id)
+            return -1;
+        return 0;
     }
 }
