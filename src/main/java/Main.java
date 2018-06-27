@@ -6,11 +6,13 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args) {
         System.out.println(Arrays.asList(args));
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));;
+        // Read from Stdin
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         String line;
         try {
             if(args.length >0){
                 String fileName = args[0];
+                //read from file
                 br = new BufferedReader(new InputStreamReader(new FileInputStream(fileName)));
             }
             while((line = br.readLine()) != null){
