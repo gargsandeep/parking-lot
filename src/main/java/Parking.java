@@ -8,6 +8,6 @@ public interface Parking {
     void status();
     List<String> registrationNoWithColour(String colour) throws Exception;
     List<Slot> slotNoWithColour(String colour) throws Exception;
-    Slot slotForRegistrationNo(String registrationNo);
+    Slot slotForRegistrationNo(String registrationNo) throws Exception;
     Boolean isAvailable();
 }

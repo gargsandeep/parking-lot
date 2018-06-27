@@ -102,8 +102,12 @@ public class ParkingLot implements  Parking{
     }
 
     @Override
-    public Slot slotForRegistrationNo(String registrationNo) {
-        return null;
+    public Slot slotForRegistrationNo(String registrationNo) throws Exception {
+        Ticket ticket = this.registrationNoTicketMap.get(registrationNo);
+        if(ticket == null)
+            throw new Exception("Not found");
+        System.out.println(ticket.getSlot().getId());
+        return  ticket.getSlot();
     }
 
     @Override
