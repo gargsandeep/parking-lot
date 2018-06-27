@@ -23,8 +23,12 @@ public class ParkingLot implements  Parking{
             avaliableSpaces.add(i);
     }
 
-    public static ParkingLot create(int size){
-        return new ParkingLot(size);
+    public static ParkingLot create(int size) throws Exception {
+        if(size <=0 )
+            throw new Exception("Iillegal size "+size);
+        ParkingLot parkingLot = new ParkingLot(size);
+        System.out.println("Created a parking lot with "+size+" slots");
+        return parkingLot;
     }
 
     @Override
