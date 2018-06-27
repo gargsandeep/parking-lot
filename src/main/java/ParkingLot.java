@@ -32,8 +32,20 @@ public class ParkingLot implements  Parking{
     }
 
     @Override
-    public Ticket park(String registrationNo, String colour) {
-        return null;
+    public Ticket park(String registrationNo, String colour) throws Exception {
+        if(!this.isAvailable())
+            throw new Exception("Sorry, parking lot is full");
+        
+        int slotId = this.avaliableSpaces.poll();
+        Slot slot = new Slot(slotId);
+        Ticket ticket = new Ticket(registrationNo, colour, slot);
+        this.slotTicketMap.put(slot, ticket);
+        this.registrationNoTicketMap.put(registrationNo, ticket);
+        if(!this.colourTicketsMap.containsKey(colour))
+            this.colourTicketsMap.put(colour, new ArrayList<>());
+        this.colourTicketsMap.get(colour).add(ticket);
+
+        return ticket;
     }
 
     @Override
