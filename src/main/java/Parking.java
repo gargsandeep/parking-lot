@@ -1,4 +1,3 @@
-
 import java.util.List;
 
 public interface Parking {
@@ -9,4 +8,6 @@ public interface Parking {
     List<Slot> slotNoWithColour(String colour);
     Slot slotForRegistrationNo(String registrationNo);
     Boolean isAvailable();
+    Integer getSize();
+    Integer getAvailableSize();
 }

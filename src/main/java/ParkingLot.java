@@ -8,7 +8,7 @@ public class ParkingLot implements  Parking{
     private Map<String, List<Ticket>> colourTicketsMap;
     private Map<String, Ticket> registrationNoTicketMap;
 
-    ParkingLot(int size){
+    private ParkingLot(int size){
         this.size=size;
         this.avaliableSpaces = new PriorityQueue<Integer>(size);
         initailizeAvaliableSpaces(this.avaliableSpaces, size);
@@ -121,5 +121,15 @@ public class ParkingLot implements  Parking{
     @Override
     public Boolean isAvailable() {
         return !this.avaliableSpaces.isEmpty();
+    }
+
+    @Override
+    public Integer getSize(){
+        return this.size;
+    }
+
+    @Override
+    public  Integer getAvailableSize(){
+        return this.avaliableSpaces.size();
     }
 }
